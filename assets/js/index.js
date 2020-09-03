@@ -82,19 +82,28 @@ class Calculator {
         maximumFractionDigits: 0,
       });
     }
+
     if (decimal !== undefined) {
       return `${integerDisplay}.${decimal}`;
     } else return integerDisplay;
   }
 
   updateDisplay() {
-    this.currentText.innerText = this.getDisplayNumber(this.currentOperand);
-    if (this.operation !== undefined) {
-      this.previousText.innerText = `${this.getDisplayNumber(
-        this.previousOperand
-      )} ${this.operation}`;
-    } else
-      this.previousText.innerText = this.getDisplayNumber(this.previousOperand);
+    let displayCurrent = this.getDisplayNumber(this.currentOperand);
+    let displayPrevious = this.getDisplayNumber(this.previousOperand);
+    let integerCurrent = this.currentOperand.toString().split(".")[0];
+    let integerPrevious = this.previousOperand.toString().split(".")[0];
+    this.currentText.innerText = displayCurrent;
+    if (this.operation !== undefined)
+      this.previousText.innerText = `${displayPrevious} ${this.operation}`;
+    else this.previousText.innerText = displayPrevious;
+    if (integerCurrent.length > 12)
+      this.currentText.innerText = parseFloat(integerCurrent).toExponential(12);
+
+    if (integerPrevious.length > 12)
+      this.previousText.innerText = parseFloat(integerPrevious).toExponential(
+        10
+      );
   }
 }
 
